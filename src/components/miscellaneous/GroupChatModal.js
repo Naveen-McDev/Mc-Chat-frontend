@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -7,26 +6,26 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  useDisclosure,
   Button,
-  useToast,
+  useDisclosure,
   FormControl,
   Input,
+  useToast,
   Box,
 } from "@chakra-ui/react";
-import { ChatState } from "../../context/ChatProvider";
 import axios from "axios";
-import UserListItem from "../UserAvatar/UserListItem";
-import UserBadgeItem from "../UserAvatar/UserBadgeItem";
+import { useState } from "react";
+import { ChatState } from "../../Context/ChatProvider";
+import UserBadgeItem from "../userAvatar/UserBadgeItem";
+import UserListItem from "../userAvatar/UserListItem";
 
 const GroupChatModal = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [groupChatName, setGroupChatName] = useState();
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [search, setSearch] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
-
   const toast = useToast();
 
   const { user, chats, setChats } = ChatState();
@@ -44,29 +43,31 @@ const GroupChatModal = ({ children }) => {
     }
 
     setSelectedUsers([...selectedUsers, userToAdd]);
+    setSearchResult([]);
   };
 
   const handleSearch = async (query) => {
     setSearch(query);
-    if (!query) return;
+    if (!query) {
+      return;
+    }
+
     try {
       setLoading(true);
       const config = {
         headers: {
-          Authorization: user.token,
+          Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/user/getallusers?search=${search}`,
-        config
-      );
-      console.log(data.data);
+      const { data } = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/user?search=${search}`, config);
+      console.log(data);
       setLoading(false);
-      setSearchResults(data.data);
+      setSearchResult(data);
+      console.log(searchResult)
     } catch (error) {
       toast({
         title: "Error Occured!",
-        description: "Failed to load the search results",
+        description: "Failed to Load the Search Results",
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -94,11 +95,11 @@ const GroupChatModal = ({ children }) => {
     try {
       const config = {
         headers: {
-          Authorization: user.token,
+          Authorization: `Bearer ${user.token}`,
         },
       };
       const { data } = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/api/chat/group/create`,
+        `${process.env.REACT_APP_SERVER_URL}/api/chat/group`,
         {
           name: groupChatName,
           users: JSON.stringify(selectedUsers.map((u) => u._id)),
@@ -125,6 +126,7 @@ const GroupChatModal = ({ children }) => {
       });
     }
   };
+
   return (
     <>
       <span onClick={onOpen}>{children}</span>
@@ -169,7 +171,7 @@ const GroupChatModal = ({ children }) => {
               // <ChatLoading />
               <div>Loading...</div>
             ) : (
-              searchResults
+              searchResult
                 ?.slice(0, 4)
                 .map((user) => (
                   <UserListItem
@@ -181,7 +183,7 @@ const GroupChatModal = ({ children }) => {
             )}
           </ModalBody>
           <ModalFooter>
-            <Button colorscheme="blue" onClick={handleSubmit}>
+            <Button onClick={handleSubmit} colorScheme="blue">
               Create Chat
             </Button>
           </ModalFooter>

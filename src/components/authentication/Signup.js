@@ -1,8 +1,4 @@
-import { Button } from "@chakra-ui/button";
-import { FormControl, FormLabel } from "@chakra-ui/form-control";
-import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
-import { VStack } from "@chakra-ui/layout";
-import { useToast } from "@chakra-ui/toast";
+import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, VStack, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router";
@@ -43,7 +39,7 @@ const Signup = () => {
       });
       return;
     }
-
+    console.log(name, email, password, pic);
     try {
       const config = {
         headers: {
@@ -51,7 +47,7 @@ const Signup = () => {
         },
       };
       const { data } = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/api/user/signup`,
+        `${process.env.REACT_APP_SERVER_URL}/api/user`,
         {
           name,
           email,
@@ -60,7 +56,7 @@ const Signup = () => {
         },
         config
       );
-
+      console.log(data);
       toast({
         title: "Registration Successful",
         status: "success",
@@ -96,7 +92,7 @@ const Signup = () => {
       });
       return;
     }
-
+    console.log(pics);
     if (pics.type === "image/jpeg" || pics.type === "image/png") {
       const data = new FormData();
       data.append("file", pics);
@@ -109,9 +105,11 @@ const Signup = () => {
         .then((res) => res.json())
         .then((data) => {
           setPic(data.url.toString());
+          console.log(data.url.toString());
           setPicLoading(false);
         })
         .catch((err) => {
+          console.log(err);
           setPicLoading(false);
         });
     } else {

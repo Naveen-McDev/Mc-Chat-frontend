@@ -1,9 +1,9 @@
-import React from 'react'
+import { Box, Text, Avatar } from "@chakra-ui/react";
+import { ChatState } from "../../Context/ChatProvider";
 
-import {Box, Avatar, Text } from "@chakra-ui/react";
+const UserListItem = ({user, handleFunction }) => {
+  
 
-const UserListItem = ({user, handleFunction}) => {
-   
   return (
     <Box
       onClick={handleFunction}
@@ -37,7 +37,7 @@ const UserListItem = ({user, handleFunction}) => {
         </Text>
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default UserListItem
+export default UserListItem;

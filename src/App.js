@@ -1,18 +1,17 @@
-import React from "react";
 import "./App.css";
-import {Routes, Route} from "react-router-dom";
-import Home from "./pages/Home";
-import Chat from "./pages/Chat";
+import Homepage from "./Pages/Homepage";
+import { Route, Routes } from "react-router-dom";
+import Chatpage from "./Pages/Chatpage";
 
-const App = () => {
+function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/chats" element={<Chat />} />
+        <Route path="/" element={<Homepage />} />
+        <Route path="/chats" element={<Chatpage />} />
       </Routes>
     </div>
   );
-};
+}
 
 export default App;
