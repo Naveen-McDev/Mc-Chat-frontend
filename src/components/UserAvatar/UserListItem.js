@@ -1,9 +1,7 @@
 import { Box, Text, Avatar } from "@chakra-ui/react";
-import { ChatState } from "../../Context/ChatProvider";
 
-const UserListItem = ({user, handleFunction }) => {
-  
-
+// user list item component
+const UserListItem = ({ user, handleFunction }) => {
   return (
     <Box
       onClick={handleFunction}
@@ -22,6 +20,7 @@ const UserListItem = ({user, handleFunction }) => {
       mb={2}
       borderRadius="lg"
     >
+      {/* avatar */}
       <Avatar
         mr={2}
         size="sm"
@@ -30,7 +29,9 @@ const UserListItem = ({user, handleFunction }) => {
         src={user.pic}
       />
       <Box>
+        {/* name */}
         <Text>{user.name}</Text>
+        {/* email */}
         <Text fontSize="xs">
           <b>Email : </b>
           {user.email}

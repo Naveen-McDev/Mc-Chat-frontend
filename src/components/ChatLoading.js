@@ -1,5 +1,5 @@
-import { Stack, Skeleton} from "@chakra-ui/react";
-
+import { Stack, Skeleton } from "@chakra-ui/react";
+// chat loading component
 const ChatLoading = () => {
   return (
     <Stack>

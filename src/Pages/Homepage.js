@@ -16,6 +16,7 @@ import Signup from "../components/Authentication/Signup";
 function Homepage() {
   const navigate = useNavigate();
 
+  // navigate user to chat route if the user info is present in the local storage
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
 
@@ -35,7 +36,7 @@ function Homepage() {
         borderWidth="1px"
       >
         <Text fontSize="4xl" fontFamily="Work sans">
-          Talk-A-Tive
+          Mc-Chat
         </Text>
       </Box>
       <Box bg="white" w="100%" p={4} borderRadius="lg" borderWidth="1px">

@@ -8,11 +8,13 @@ import {
 } from "../config/ChatLogics";
 import { ChatState } from "../Context/ChatProvider";
 
+// scrollable chat
 const ScrollableChat = ({ messages }) => {
   const { user } = ChatState();
 
   return (
     <ScrollableFeed>
+      {/* mapping messages */}
       {messages &&
         messages.map((m, i) => (
           <div style={{ display: "flex" }} key={m?._id}>

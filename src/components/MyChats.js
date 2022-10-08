@@ -7,6 +7,7 @@ import ChatLoading from "./ChatLoading";
 import GroupChatModal from "./miscellaneous/GroupChatModal";
 import { ChatState } from "../Context/ChatProvider";
 
+// my chat
 const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
 
@@ -14,6 +15,7 @@ const MyChats = ({ fetchAgain }) => {
 
   const toast = useToast();
 
+  // fetching chats
   const fetchChats = async () => {
     try {
       const config = {
@@ -22,9 +24,14 @@ const MyChats = ({ fetchAgain }) => {
         },
       };
 
-      const { data } = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/chat`, config);
+      // fetching chats from backend
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_SERVER_URL}/api/chat`,
+        config
+      );
       setChats(data);
     } catch (error) {
+      // toast alert
       toast({
         title: "Error Occured!",
         description: "Failed to Load the chats",
@@ -36,6 +43,7 @@ const MyChats = ({ fetchAgain }) => {
     }
   };
 
+  // fetching the data when fatchAgain changes
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats();
@@ -43,7 +51,7 @@ const MyChats = ({ fetchAgain }) => {
 
   return (
     <Box
-    display={{ base: selectedChat ? "none" : "flex", md: "flex" }}
+      display={{ base: selectedChat ? "none" : "flex", md: "flex" }}
       flexDir="column"
       alignItems="center"
       p={3}
@@ -64,6 +72,7 @@ const MyChats = ({ fetchAgain }) => {
       >
         My Chats
         <GroupChatModal>
+          {/* new group chat button */}
           <Button
             display="flex"
             fontSize={{ base: "17px", md: "10px", lg: "17px" }}
@@ -85,6 +94,7 @@ const MyChats = ({ fetchAgain }) => {
       >
         {chats ? (
           <Stack overflowY="scroll">
+            {/* mapping chats */}
             {chats.map((chat) => (
               <Box
                 onClick={() => setSelectedChat(chat)}

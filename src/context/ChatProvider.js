@@ -10,13 +10,12 @@ const ChatProvider = ({ children }) => {
   const [chats, setChats] = useState();
 
   const navigate = useNavigate();
-
+  // navigate to home page if the user info is not preset in the local storage
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     setUser(userInfo);
 
     if (!userInfo) navigate("/");
-    
   }, [navigate]);
 
   return (

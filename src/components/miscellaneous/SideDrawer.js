@@ -20,7 +20,7 @@ import {
   Spinner
 } from "@chakra-ui/react";
 
-import {BellIcon, ChevronDownIcon,} from '@chakra-ui/icons';
+import {BellIcon, ChevronDownIcon, Search2Icon,} from '@chakra-ui/icons';
 
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -135,7 +135,7 @@ function SideDrawer() {
       >
         <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
           <Button variant="ghost" onClick={onOpen}>
-            <i className="fas fa-search"></i>
+            <Search2Icon />
             <Text display={{ base: "none", md: "flex" }} px={4}>
               Search User
             </Text>

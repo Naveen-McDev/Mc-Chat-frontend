@@ -1,4 +1,12 @@
-import { FormControl, Input, Box, Text, IconButton, Spinner, useToast } from "@chakra-ui/react";
+import {
+  FormControl,
+  Input,
+  Box,
+  Text,
+  IconButton,
+  Spinner,
+  useToast,
+} from "@chakra-ui/react";
 import "./styles.css";
 import { getSender, getSenderFull } from "../config/ChatLogics";
 import { useEffect, useState } from "react";
@@ -15,6 +23,7 @@ import { ChatState } from "../Context/ChatProvider";
 const ENDPOINT = `${process.env.REACT_APP_SERVER_URL}`;
 var socket, selectedChatCompare;
 
+// single chat
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -35,6 +44,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const { selectedChat, setSelectedChat, user, notification, setNotification } =
     ChatState();
 
+  // fetch messages
   const fetchMessages = async () => {
     if (!selectedChat) return;
 
@@ -53,9 +63,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       );
       setMessages(data);
       setLoading(false);
-      
+
       socket.emit("join chat", selectedChat._id);
     } catch (error) {
+      // toast alert
       toast({
         title: "Error Occured!",
         description: "Failed to Load the Messages",
@@ -67,6 +78,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     }
   };
 
+  // send message
   const sendMessage = async (event) => {
     if (event.key === "Enter" && newMessage) {
       socket.emit("stop typing", selectedChat._id);
@@ -107,7 +119,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     socket.on("connected", () => setSocketConnected(true));
     socket.on("typing", () => setIsTyping(true));
     socket.on("stop typing", () => setIsTyping(false));
-
   }, []);
 
   useEffect(() => {
@@ -132,6 +143,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     });
   });
 
+  // typing handler
   const typingHandler = (e) => {
     setNewMessage(e.target.value);
 
@@ -211,7 +223,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 margin="auto"
               />
             ) : (
-           
               <div className="messages">
                 <ScrollableChat messages={messages} />
               </div>
@@ -235,6 +246,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               ) : (
                 <></>
               )}
+              {/* enter message field */}
               <Input
                 variant="filled"
                 bg="#E0E0E0"
@@ -246,7 +258,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           </Box>
         </>
       ) : (
-        <Box display="flex" alignItems="center" justifyContent="center" h="100%">
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          h="100%"
+        >
           <Text fontSize="3xl" pb={3} fontFamily="Work sans">
             Click on a user to start chatting
           </Text>
