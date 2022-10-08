@@ -17,10 +17,10 @@ import {
   Tooltip,
   Avatar,
   useToast,
-  Spinner
+  Spinner,
 } from "@chakra-ui/react";
 
-import {BellIcon, ChevronDownIcon, Search2Icon,} from '@chakra-ui/icons';
+import { BellIcon, ChevronDownIcon, Search2Icon } from "@chakra-ui/icons";
 
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -31,7 +31,7 @@ import NotificationBadge from "react-notification-badge";
 import { Effect } from "react-notification-badge";
 import { getSender } from "../../config/ChatLogics";
 import UserListItem from "../userAvatar/UserListItem";
-import { ChatState } from "../../Context/ChatProvider";
+import { ChatState } from "../../context/ChatProvider";
 
 function SideDrawer() {
   const [search, setSearch] = useState("");
@@ -78,7 +78,10 @@ function SideDrawer() {
         },
       };
 
-      const { data } = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/user?search=${search}`, config);
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_SERVER_URL}/api/user?search=${search}`,
+        config
+      );
 
       setLoading(false);
       setSearchResult(data);
@@ -95,7 +98,6 @@ function SideDrawer() {
   };
 
   const accessChat = async (userId) => {
-
     try {
       setLoadingChat(true);
       const config = {
@@ -104,7 +106,11 @@ function SideDrawer() {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/chat`, { userId }, config);
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/api/chat`,
+        { userId },
+        config
+      );
 
       if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
       setSelectedChat(data);
